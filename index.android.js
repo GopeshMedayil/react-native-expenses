@@ -12,19 +12,23 @@ import {
   View
 } from 'react-native';
 
-export default class Expenses extends Component {
+import SimpleButton from './App/Components/SimpleButton';
+const Realm = require('realm');
+
+class Expenses extends Component {
   render() {
+    let realm = new Realm({
+      schema: [{ name: 'Dog', properties: { name: 'string' } }]
+    });
+
+    realm.write(() => {
+      realm.create('Dog', { name: 'Rex' });
+    });
+
     return (
       <View style={styles.container}>
         <Text style={styles.welcome}>
-          Welcome to React Native!
-        </Text>
-        <Text style={styles.instructions}>
-          To get started, edit index.android.js
-        </Text>
-        <Text style={styles.instructions}>
-          Double tap R on your keyboard to reload,{'\n'}
-          Shake or press menu button for dev menu
+          Count of Dogs in Realm: {realm.objects('Dog').length}
         </Text>
       </View>
     );
